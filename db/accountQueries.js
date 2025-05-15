@@ -14,7 +14,7 @@ async function createOrReturnUser (email) {
         select: {
             id: true,
             email: true,
-            role: true;
+            role: true
         },
     });
 
