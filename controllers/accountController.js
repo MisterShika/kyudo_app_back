@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
+const db = require("../db/accountQueries");
 require('dotenv').config();
 
 async function getUserSingle(req, res) {
-    console.log(`getUserSingle fired`);
-    res.json('InteractionSuccess');
+    const {email} = req.body;
+    res.json(db.createOrReturnUser(email));
 }
 
 module.exports = {
