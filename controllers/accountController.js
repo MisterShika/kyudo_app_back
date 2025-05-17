@@ -4,7 +4,9 @@ require('dotenv').config();
 
 async function getUserSingle(req, res) {
     const {email} = req.body;
-    res.json(db.createOrReturnUser(email));
+    const accountData = await db.createOrReturnUser(email);
+    const token = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET);
+    res.json(token);
 }
 
 module.exports = {
