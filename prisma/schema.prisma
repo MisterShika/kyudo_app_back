@@ -14,12 +14,61 @@ generator client {
 }
 
 model User {
-    id          Int         @id @default(autoincrement())
-    email       String      @unique
-    role        Role        @default(USER)
+    id                  Int         @id @default(autoincrement())
+    email               String      @unique
+    role                Role        @default(USER)
+    sessions            Session[]
+    currentSession      Session?    @relation("CurrentSession", fields: [currentSessionId], references: [id])
+    currentSessionId    Int?        @unique
+    tags                Tag[] 
+}
+
+model Session {
+    id          Int             @id @default(autoincrement())
+    startTime   DateTime
+    endTime     DateTime?
+    status      SessionStatus   @default(CURRENT)
+    user        User            @relation(fields: [userId], references: [id])
+    userId      Int
+    currentUser User?           @relation("CurrentSession")
+    location    Location        @relation(fields: [locationId], references: [id])
+    locationId  Int
+    shots       Shot[]
+}
+
+model Shot {
+    id         Int      @id @default(autoincrement())
+    timestamp  DateTime
+    x          Float?
+    y          Float?
+    session    Session  @relation(fields: [sessionId], references: [id])
+    sessionId  Int
+    tags       Tag[]    @relation("ShotTags")
+}
+
+model Tag {
+    id       Int            @id @default(autoincrement())
+    name     String
+    userId   Int
+    user     User           @relation(fields: [userId], references: [id])
+    shots    Shot[]         @relation("ShotTags")
+    @@unique([name, userId])
+}
+
+model Location {
+    id        Int        @id @default(autoincrement())
+    name      String
+    sessions  Session[]
+
+    @@unique([name])
 }
 
 enum Role {
     USER
     ADMIN
+}
+
+enum SessionStatus {
+    CURRENT
+    COMPLETED
 }
