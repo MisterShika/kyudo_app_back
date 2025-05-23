@@ -18,6 +18,17 @@ async function createSession(userId, locationId) {
     return session;
 }
 
+async function endSession(sessionId){
+    await prisma.session.update({
+        where: { id: sessionId },
+        data: {
+            endTime: new Date(),
+            status: 'COMPLETED'
+        },
+    });
+}
+
 module.exports = {
-    createSession
+    createSession,
+    endSession
 }
