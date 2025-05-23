@@ -2,16 +2,20 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 
-async function createSession (userId, locationId) {
-    return await prisma.session.create({
+async function createSession(userId, locationId) {
+    const temporaryId = 1;
+    const session = await prisma.session.create({
         data: {
             startTime: new Date(),
             userId: userId,
-            //EXAMPLE LOCATION USED
-            //CHANGE ID LATER
-            locationId: 1
+            locationId: temporaryId
+        },
+        select: {
+            id: true,
+            startTime: true
         }
     });
+    return session;
 }
 
 module.exports = {
