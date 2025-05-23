@@ -25,6 +25,27 @@ async function createOrReturnUser (email) {
     }
 }
 
+async function getUserSession(userId){
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { currentSessionId: true }
+    });
+    return user;
+}
+
+async function setCurrentSession(userId, sessionId){
+    await prisma.user.update({
+        where: {
+            id: userId,
+        },
+        data: {
+            currentSessionId: sessionId,
+        },
+    });
+}
+
 module.exports = {
     createOrReturnUser,
+    getUserSession,
+    setCurrentSession
 }
