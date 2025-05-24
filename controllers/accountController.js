@@ -9,6 +9,15 @@ async function getUserSingle(req, res) {
     res.json(token);
 }
 
+async function checkUserSession(req, res) {
+    const {userId} = req.body;
+    const accountData = await accountDb.getUserSession(userId);
+    return res.status(201).json({
+        sessionId: accountData
+    });
+}
+
 module.exports = {
     getUserSingle,
+    checkUserSession
 }

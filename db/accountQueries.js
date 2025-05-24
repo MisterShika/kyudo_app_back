@@ -14,14 +14,16 @@ async function createOrReturnUser (email) {
         select: {
             id: true,
             email: true,
-            role: true
+            role: true,
+            currentSessionId: true
         },
     });
 
     return {
         id: user.id,
         email: user.email,
-        role: user.role
+        role: user.role,
+        currentSessionId: user.currentSessionId
     }
 }
 
