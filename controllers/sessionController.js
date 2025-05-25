@@ -46,7 +46,12 @@ async function endSession(req, res) {
 }
 
 async function getSessionSingle(req, res) {
-
+    const sessionId = parseInt(req.params.sessionId);
+    const theSession = await sessionDb.getSessionSingle(sessionId);
+    return res.status(201).json({
+        message: 'Session retrieved successfully',
+        session: theSession
+    });
 }
 
 async function getSessionMultiple(req, res) {
@@ -59,5 +64,6 @@ async function deleteSessionSingle(req, res) {
 
 module.exports = {
     startSession,
-    endSession
+    endSession,
+    getSessionSingle
 }

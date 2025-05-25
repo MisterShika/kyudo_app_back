@@ -28,7 +28,21 @@ async function endSession(sessionId){
     });
 }
 
+async function getSessionSingle(sessionId){
+    const session = await prisma.session.findUnique({
+        where: {id : sessionId},
+        select: {
+            id: true,
+            startTime: true,
+            endTime: true,
+            status: true
+        }
+    });
+    return session;
+}
+
 module.exports = {
     createSession,
-    endSession
+    endSession,
+    getSessionSingle
 }
