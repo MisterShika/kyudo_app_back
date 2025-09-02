@@ -11,10 +11,30 @@ async function addShotToSession(req, res) {
     });
 }
 
+async function getShotsFromSession(req, res) {
+    const sessionId = parseInt(req.params.sessionId);
+    const shotData = await shotDb.getShotsFromSession(sessionId);
+    return res.status(201).json({
+        message: 'All shots retrieved successfully',
+        shots: shotData
+    });
+}
+
+async function getMostRecentShot(req, res) {
+    const sessionId = parseInt(req.params.sessionId);
+    const shotData = await shotDb.getMostRecentShot(sessionId);
+    return res.status(201).json({
+        message: 'Shot retrieved successfully',
+        shot: shotData
+    });
+}
+
 async function removeShotFromSession(req, res) {
 
 }
 
 module.exports = {
-    addShotToSession
+    addShotToSession,
+    getShotsFromSession,
+    getMostRecentShot
 }

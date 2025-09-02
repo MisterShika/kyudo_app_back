@@ -16,6 +16,22 @@ async function addShotToSession(sessionId, userId, x, y, hit, kinteki){
     return shot;
 }
 
+async function getShotsFromSession(sessionId){
+    const shots = await prisma.shot.findMany({
+        where: {sessionId : sessionId},
+        select: {
+            id: true,
+            x: true,
+            y: true,
+            hit: true,
+            kinteki: true,
+            tags: true
+        }
+    })
+    return shots;
+}
+
 module.exports = {
-    addShotToSession
+    addShotToSession,
+    getShotsFromSession
 }
