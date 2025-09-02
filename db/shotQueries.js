@@ -27,11 +27,28 @@ async function getShotsFromSession(sessionId){
             kinteki: true,
             tags: true
         }
-    })
+    });
     return shots;
+}
+
+async function getMostRecentShot(sessionId){
+    const shot = await prisma.shot.findFirst({
+        where: {sessionId : sessionId},
+        orderBy: { id: 'desc' }, 
+        select: {
+            id: true,
+            x: true,
+            y: true,
+            hit: true,
+            kinteki: true,
+            tags: true
+        }  
+    });
+    return shot;
 }
 
 module.exports = {
     addShotToSession,
-    getShotsFromSession
+    getShotsFromSession,
+    getMostRecentShot
 }
